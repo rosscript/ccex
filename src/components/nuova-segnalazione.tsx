@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
 
+
 export function NuovaSegnalazione() {
   const [cryptoAddresses, setCryptoAddresses] = useState<Array<{ address: string; blockchain: string }>>([])
   const [currentAddress, setCurrentAddress] = useState("")
@@ -171,6 +172,7 @@ export function NuovaSegnalazione() {
     }
 
     loadOptions()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pointOfContact, activityNature, signatureGroup])
 
   const filteredExchanges = exchanges.filter(exchange =>
@@ -268,12 +270,97 @@ export function NuovaSegnalazione() {
     setBulkInput("")
   }
 
-  // Funzione per il reset
+  // Funzione di reset
   const handleReset = () => {
     setCryptoAddresses([])
     setCurrentAddress("")
     setBulkInput("")
     setExchanges(exchanges.map(e => ({ ...e, selected: true })))
+  }
+
+  const handleGenerateDocument = async () => {
+    try {
+      // Ottieni i dettagli per point of contact, natura attività e gruppo firma
+      const pocData = localStorage.getItem('pointsOfContact')
+      const activitiesData = localStorage.getItem('activities')
+      const groupsData = localStorage.getItem('signatureGroups')
+      
+      let pocDetails = undefined;
+      let activityLabel = undefined;
+      let groupDetails = undefined;
+      
+      if (pocData) {
+        const parsedData = JSON.parse(pocData) as PointOfContact[];
+        const poc = parsedData.find(p => p.id === pointOfContact);
+        if (poc) {
+          pocDetails = poc;
+        }
+      }
+      
+      if (activitiesData) {
+        const parsedData = JSON.parse(activitiesData) as NaturaAttivita[];
+        const activity = parsedData.find(a => a.id === activityNature);
+        if (activity) {
+          activityLabel = activity.label;
+        }
+      }
+      
+      if (groupsData) {
+        const parsedData = JSON.parse(groupsData) as GruppoFirma[];
+        const group = parsedData.find(g => g.id === signatureGroup);
+        if (group) {
+          groupDetails = group;
+        }
+      }
+      
+      // Ottieni gli exchange selezionati
+      const selectedExchanges = exchanges.filter(e => e.selected);
+      
+      // Prepara i dati per il template
+      const templateData = {
+        date: new Date().toLocaleDateString('it-IT'),
+        recipients: selectedExchanges.map(e => `${e.name} (${e.emails.join(', ')})`).join(', '),
+        subject: 'Segnalazione Indirizzi Crypto',
+        body: documentBody,
+        poc_name: pocDetails?.nominativo || pointOfContact,
+        poc_grade: pocDetails?.qualifica || '',
+        poc_phone: pocDetails?.telefono || '',
+        poc_email: pocDetails?.email || '',
+        poc_address: pocDetails?.indirizzo || '',
+        items: cryptoAddresses.map(addr => `${addr.address} (${addr.blockchain.toUpperCase()})`).join('\n'),
+        noa: activityLabel || activityNature,
+        signature_group_title: groupDetails?.titolo || '',
+        signature_group_name: groupDetails?.nome || ''
+      };
+
+      // Chiama l'API per generare il documento Word
+      const response = await fetch('/api/generate-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          templateName: 'Awarness Letter.docx',
+          data: templateData
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore durante la generazione del documento');
+      }
+
+      // Scarica il documento
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Awarness_Letter.docx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Errore durante la generazione del documento:', error);
+      alert('Si è verificato un errore durante la generazione del documento.');
+    }
   }
 
   const formatAddress = (address: string) => {
@@ -573,6 +660,7 @@ export function NuovaSegnalazione() {
           <Button 
             variant="outline"
             disabled={cryptoAddresses.length === 0 || filteredExchanges.filter(e => e.selected).length === 0}
+            onClick={handleGenerateDocument}
           >
             <FileText className="w-4 h-4" />
             Genera Documento
