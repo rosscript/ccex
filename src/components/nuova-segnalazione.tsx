@@ -37,26 +37,50 @@ export function NuovaSegnalazione() {
   const [pointOfContact, setPointOfContact] = useState("")
   const [activityNature, setActivityNature] = useState("")
   const [signatureGroup, setSignatureGroup] = useState("")
+  
+  const [pocOptions, setPocOptions] = useState<Array<{ value: string; label: string }>>([
+    { value: "ccafmsc", label: "CCAFMSC" },
+    { value: "ccaf", label: "CCAF" },
+    { value: "ccafmsc_ccaf", label: "CCAFMSC + CCAF" }
+  ])
+  
+  const [activityOptions, setActivityOptions] = useState<Array<{ value: string; label: string }>>([
+    { value: "investigativa", label: "Attività Investigativa" },
+    { value: "preventiva", label: "Attività Preventiva" },
+    { value: "repressiva", label: "Attività Repressiva" }
+  ])
+  
+  const [groupOptions, setGroupOptions] = useState<Array<{ value: string; label: string }>>([
+    { value: "gruppo_a", label: "Gruppo A" },
+    { value: "gruppo_b", label: "Gruppo B" },
+    { value: "gruppo_c", label: "Gruppo C" }
+  ])
 
-  const options = {
-    pointOfContact: [
-      { value: "ccafmsc", label: "CCAFMSC" },
-      { value: "ccaf", label: "CCAF" },
-      { value: "ccafmsc_ccaf", label: "CCAFMSC + CCAF" }
-    ],
-    activityNature: [
-      { value: "investigativa", label: "Attività Investigativa" },
-      { value: "preventiva", label: "Attività Preventiva" },
-      { value: "repressiva", label: "Attività Repressiva" }
-    ],
-    signatureGroup: [
-      { value: "gruppo_a", label: "Gruppo A" },
-      { value: "gruppo_b", label: "Gruppo B" },
-      { value: "gruppo_c", label: "Gruppo C" }
-    ]
+  type PointOfContact = {
+    id: string;
+    nominativo: string;
+    qualifica: string;
+    telefono: string;
+    email: string;
+    indirizzo: string;
   }
 
+  type NaturaAttivita = {
+    id: string;
+    label: string;
+  }
 
+  type GruppoFirma = {
+    id: string;
+    titolo: string;
+    nome: string;
+  }
+
+  const options = {
+    pointOfContact: pocOptions,
+    activityNature: activityOptions,
+    signatureGroup: groupOptions
+  }
 
   useEffect(() => {
     const loadExchanges = async () => {
@@ -77,6 +101,77 @@ export function NuovaSegnalazione() {
     }
     loadExchanges()
   }, [])
+
+  useEffect(() => {
+    const loadOptions = () => {
+      const pocData = localStorage.getItem('pointsOfContact')
+      const activitiesData = localStorage.getItem('activities')
+      const groupsData = localStorage.getItem('signatureGroups')
+      const defaultPocData = localStorage.getItem('defaultPoc')
+      const defaultActivityData = localStorage.getItem('defaultActivity')
+      const defaultGroupData = localStorage.getItem('defaultGroup')
+      const defaultDocumentBodyData = localStorage.getItem('defaultDocumentBody')
+
+      // Carica il corpo del documento predefinito
+      if (defaultDocumentBodyData && !documentBody) {
+        setDocumentBody(defaultDocumentBodyData)
+      }
+
+      // Carica le opzioni dal localStorage se disponibili, altrimenti utilizza i valori predefiniti
+      if (pocData) {
+        const parsedData = JSON.parse(pocData) as PointOfContact[];
+        const newOptions = parsedData.map((poc: PointOfContact) => ({
+          value: poc.id,
+          label: `${poc.nominativo}${poc.qualifica ? ` (${poc.qualifica})` : ''}`
+        }));
+        setPocOptions(newOptions);
+        
+        // Imposta il valore predefinito se presente
+        if (defaultPocData && !pointOfContact) {
+          const defaultPoc = parsedData.find((poc: PointOfContact) => poc.id === defaultPocData);
+          if (defaultPoc) {
+            setPointOfContact(defaultPoc.id);
+          }
+        }
+      }
+
+      if (activitiesData) {
+        const parsedData = JSON.parse(activitiesData) as NaturaAttivita[];
+        const newOptions = parsedData.map((activity: NaturaAttivita) => ({
+          value: activity.id,
+          label: activity.label
+        }));
+        setActivityOptions(newOptions);
+        
+        // Imposta il valore predefinito se presente
+        if (defaultActivityData && !activityNature) {
+          const defaultActivity = parsedData.find((activity: NaturaAttivita) => activity.id === defaultActivityData);
+          if (defaultActivity) {
+            setActivityNature(defaultActivity.id);
+          }
+        }
+      }
+
+      if (groupsData) {
+        const parsedData = JSON.parse(groupsData) as GruppoFirma[];
+        const newOptions = parsedData.map((group: GruppoFirma) => ({
+          value: group.id,
+          label: `${group.titolo} ${group.nome}`
+        }));
+        setGroupOptions(newOptions);
+        
+        // Imposta il valore predefinito se presente
+        if (defaultGroupData && !signatureGroup) {
+          const defaultGroup = parsedData.find((group: GruppoFirma) => group.id === defaultGroupData);
+          if (defaultGroup) {
+            setSignatureGroup(defaultGroup.id);
+          }
+        }
+      }
+    }
+
+    loadOptions()
+  }, [pointOfContact, activityNature, signatureGroup])
 
   const filteredExchanges = exchanges.filter(exchange =>
     exchange.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -179,6 +274,11 @@ export function NuovaSegnalazione() {
     setCurrentAddress("")
     setBulkInput("")
     setExchanges(exchanges.map(e => ({ ...e, selected: true })))
+  }
+
+  const formatAddress = (address: string) => {
+    // Implementa la formattazione dell'indirizzo
+    return address;
   }
 
   return (
@@ -301,7 +401,7 @@ export function NuovaSegnalazione() {
                       className="flex items-center gap-2 px-3 py-1.5 rounded-md border bg-accent/50"
                     >
                       <span className="text-sm flex-1 font-mono">
-                        {item.address} ({item.blockchain})
+                        {formatAddress(item.address)} ({item.blockchain})
                       </span>
                       <Button
                         type="button"

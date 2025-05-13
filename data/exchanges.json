@@ -5,7 +5,7 @@
     "emails": [
       "bj.kang@binance.us"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "bitcoin-depot",
@@ -15,7 +15,7 @@
       "mark.smalley@bitcoindepot.com",
       "ashley.smith@bitcoindepot.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "bitnovo",
@@ -24,7 +24,7 @@
       "dpo@bitnovo.com",
       "info@bitnovo.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "bitstamp",
@@ -32,7 +32,7 @@
     "emails": [
       "compliance@bitstamp.net"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "bitso",
@@ -41,7 +41,7 @@
       "info@bitso.com",
       "ben@bitso.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "blockchain",
@@ -50,7 +50,7 @@
       "Legal@blockchain.com",
       "kloucks@blockchain.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "blofin",
@@ -58,7 +58,7 @@
     "emails": [
       "support@blofin.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "bybit",
@@ -67,7 +67,7 @@
       "support@bybit.com",
       "law_enforcement@bybit.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "bunq",
@@ -75,7 +75,7 @@
     "emails": [
       "intelligence@bunq.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "cash-app",
@@ -85,7 +85,7 @@
       "lawenforcement@squareup.com",
       "sop@squareup.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "changelly",
@@ -93,7 +93,7 @@
     "emails": [
       "legal@changelly.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "changenow",
@@ -101,7 +101,7 @@
     "emails": [
       "support@changenow.io"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "coinbase",
@@ -112,7 +112,7 @@
       "Richard.Ashbrooke-Motte@coinbase.com",
       "kelsey.dean@coinbase.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "coinex",
@@ -120,7 +120,7 @@
     "emails": [
       "support@coinex.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "coin-cloud",
@@ -129,7 +129,7 @@
       "legal@abusv.com",
       "compliance@coin.cloud"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "coinflip",
@@ -137,7 +137,7 @@
     "emails": [
       "jrivera@coinflip.tech"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "coingate",
@@ -145,7 +145,7 @@
     "emails": [
       "compliance@coingate.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "conio",
@@ -153,7 +153,7 @@
     "emails": [
       "conio@legalpec.me"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "cross-river",
@@ -163,7 +163,7 @@
       "LegalMatters@crossriver.com",
       "areichert@crossriver.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "crypto-com",
@@ -173,7 +173,7 @@
       "lawenforcementglobal@crypto.com",
       "Jaylene.alvarado@crypto.com"
     ],
-    "selected": true
+    "selected": false
   },
   {
     "id": "cryptocto",

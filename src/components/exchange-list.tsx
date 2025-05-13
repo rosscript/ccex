@@ -59,7 +59,12 @@ export function ExchangeList() {
       try {
         const response = await fetch('/api/exchanges')
         const data = await response.json()
-        setExchanges(data)
+        // Assicuriamoci che nessun exchange sia selezionato di default
+        const exchangesWithoutSelection = data.map((exchange: Exchange) => ({
+          ...exchange,
+          selected: false
+        }))
+        setExchanges(exchangesWithoutSelection)
       } catch (error) {
         console.error('Errore nel caricamento degli exchange:', error)
       } finally {
