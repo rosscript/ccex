@@ -24,8 +24,8 @@ import {
 
 const data = {
   user: {
-    name: "CCEX",
-    email: "admin@ccex.com",
+    name: "Sezione Criptovalute",
+    email: "ccafmsc@carabinieri.it",
     avatar: "/logo.png",
   },
   navMain: [

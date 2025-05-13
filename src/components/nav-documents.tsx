@@ -38,7 +38,7 @@ export function NavDocuments({
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Documents</SidebarGroupLabel>
+      <SidebarGroupLabel>Documenti</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -55,7 +55,7 @@ export function NavDocuments({
                   className="data-[state=open]:bg-accent rounded-sm"
                 >
                   <IconDots />
-                  <span className="sr-only">More</span>
+                  <span className="sr-only">Altro</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -83,7 +83,7 @@ export function NavDocuments({
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
             <IconDots className="text-sidebar-foreground/70" />
-            <span>More</span>
+            <span>Altro</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
