@@ -5,7 +5,7 @@
     "emails": [
       "bj.kang@binance.us"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "bitcoin-depot",
@@ -15,7 +15,7 @@
       "mark.smalley@bitcoindepot.com",
       "ashley.smith@bitcoindepot.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "bitnovo",
@@ -24,7 +24,7 @@
       "dpo@bitnovo.com",
       "info@bitnovo.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "bitstamp",
@@ -32,7 +32,7 @@
     "emails": [
       "compliance@bitstamp.net"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "bitso",
@@ -41,7 +41,7 @@
       "info@bitso.com",
       "ben@bitso.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "blockchain",
@@ -50,7 +50,7 @@
       "Legal@blockchain.com",
       "kloucks@blockchain.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "blofin",
@@ -58,7 +58,7 @@
     "emails": [
       "support@blofin.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "bybit",
@@ -67,7 +67,7 @@
       "support@bybit.com",
       "law_enforcement@bybit.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "bunq",
@@ -75,7 +75,7 @@
     "emails": [
       "intelligence@bunq.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "cash-app",
@@ -85,7 +85,7 @@
       "lawenforcement@squareup.com",
       "sop@squareup.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "changelly",
@@ -93,7 +93,7 @@
     "emails": [
       "legal@changelly.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "changenow",
@@ -101,7 +101,7 @@
     "emails": [
       "support@changenow.io"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "coinbase",
@@ -112,7 +112,7 @@
       "Richard.Ashbrooke-Motte@coinbase.com",
       "kelsey.dean@coinbase.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "coinex",
@@ -120,7 +120,7 @@
     "emails": [
       "support@coinex.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "coin-cloud",
@@ -129,7 +129,7 @@
       "legal@abusv.com",
       "compliance@coin.cloud"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "coinflip",
@@ -137,7 +137,7 @@
     "emails": [
       "jrivera@coinflip.tech"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "coingate",
@@ -145,7 +145,7 @@
     "emails": [
       "compliance@coingate.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "conio",
@@ -153,7 +153,7 @@
     "emails": [
       "conio@legalpec.me"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "cross-river",
@@ -163,7 +163,7 @@
       "LegalMatters@crossriver.com",
       "areichert@crossriver.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "crypto-com",
@@ -173,7 +173,7 @@
       "lawenforcementglobal@crypto.com",
       "Jaylene.alvarado@crypto.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "cryptocto",
@@ -181,7 +181,7 @@
     "emails": [
       "support@crypocto.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "fixedfloat",
@@ -189,7 +189,7 @@
     "emails": [
       "info@fixedfloat.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "gate-io",
@@ -197,7 +197,7 @@
     "emails": [
       "regulatory@gate.io"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "green-dot",
@@ -206,7 +206,7 @@
       "jcastro4@greendotcorp.com",
       "nlove3@greendotcorp.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "hkvax",
@@ -214,7 +214,7 @@
     "emails": [
       "support@hkvax.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "hugosway",
@@ -222,7 +222,7 @@
     "emails": [
       "support@hugosway.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "inwood-bank",
@@ -231,7 +231,7 @@
       "marc.hoffman@inwoodbank.com",
       "greg.field@inwoodbank.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "kraken",
@@ -239,7 +239,7 @@
     "emails": [
       "lawenforcement@kraken.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "kucoin",
@@ -248,7 +248,7 @@
       "rbenquiries@kucoin.com",
       "support@kucoin.zendesk.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "kyrrex",
@@ -256,7 +256,7 @@
     "emails": [
       "support@kyrrex.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "mandala",
@@ -265,7 +265,7 @@
       "joe@mandala.exchange",
       "rreiben@mandala.exchange"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "mc-bank",
@@ -274,7 +274,7 @@
       "mtsogias@mcbankny.com",
       "cpawloski@mcbankny.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "mexc",
@@ -282,7 +282,7 @@
     "emails": [
       "service@mexc.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "n26",
@@ -290,7 +290,7 @@
     "emails": [
       "antiriciclaggio@pec.n26.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "n-exchange",
@@ -299,7 +299,7 @@
       "legal@n.exchange",
       "support@n.exchange"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "netex24",
@@ -307,7 +307,7 @@
     "emails": [
       "support@netex24.net"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "okx",
@@ -316,7 +316,7 @@
       "le_okexseychelles@okx.com",
       "enforcement@okx.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "paxful",
@@ -325,7 +325,7 @@
       "subpoenas@paxful.com",
       "legal@paxful.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "pexpay",
@@ -333,7 +333,7 @@
     "emails": [
       "case@pexpay.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "payeer",
@@ -341,7 +341,7 @@
     "emails": [
       "office@payeer.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "probit",
@@ -349,7 +349,7 @@
     "emails": [
       "privacy@probit.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "reddit",
@@ -359,7 +359,7 @@
       "jeremy.kessel@reddit.com",
       "Kevin.ganelin@reddit.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "remitano",
@@ -369,7 +369,7 @@
       "hyunhquangdung@gmail.com",
       "press@remitano.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "revolut",
@@ -377,7 +377,7 @@
     "emails": [
       "courtorders@revolut.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "safepal",
@@ -385,7 +385,7 @@
     "emails": [
       "legal@safepal.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "simsms",
@@ -394,7 +394,7 @@
       "scroogemcducksrl@legalmail.it",
       "simsms.org@mail.ru"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "simpleswap",
@@ -402,7 +402,7 @@
     "emails": [
       "security@simpleswap.io"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "stake",
@@ -411,7 +411,7 @@
       "compliance@stake.com",
       "complaints@stake.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "switchain",
@@ -419,7 +419,7 @@
     "emails": [
       "compliance@switchain.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "tether",
@@ -427,7 +427,7 @@
     "emails": [
       "inforequests@tether.to"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "xt",
@@ -435,7 +435,7 @@
     "emails": [
       "support@xt.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "wazirx",
@@ -443,7 +443,7 @@
     "emails": [
       "legal@wazirx.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "whitebit",
@@ -452,7 +452,7 @@
       "support@whitebit.com",
       "legal@whitebit.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "wirex",
@@ -460,7 +460,7 @@
     "emails": [
       "policerequests@wirexapp.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "wise",
@@ -468,7 +468,7 @@
     "emails": [
       "police@wise.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "young-platform",
@@ -476,7 +476,7 @@
     "emails": [
       "legal@youngplatform.com"
     ],
-    "selected": false
+    "selected": true
   },
   {
     "id": "zixipay",
@@ -484,6 +484,6 @@
     "emails": [
       "support@zixipay.com"
     ],
-    "selected": false
+    "selected": true
   }
 ]

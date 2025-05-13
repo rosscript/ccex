@@ -183,7 +183,7 @@ export function ExchangeList() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="mx-auto max-w-[1400px] w-full space-y-4">
       <StatsDisplay exchanges={exchanges} />
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">

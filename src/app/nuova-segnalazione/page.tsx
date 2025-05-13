@@ -26,7 +26,6 @@ export default function Page() {
           <div className="@container/main flex flex-1 flex-col gap-2">
             <PageTransition>
               <div className="flex flex-col gap-4 p-4 md:gap-6 md:p-6">
-                <h1 className="text-2xl font-semibold">Nuova Segnalazione</h1>
                 <NuovaSegnalazione />
               </div>
             </PageTransition>

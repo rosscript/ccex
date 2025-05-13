@@ -20,10 +20,12 @@ export default function Page() {
           <div className="@container/main flex flex-1 flex-col gap-2">
             <PageTransition>
               <div className="flex flex-col gap-4 p-4 md:gap-6 md:p-6">
-                <h1 className="text-3xl font-bold">Storico Segnalazioni</h1>
-                <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-                  <div className="p-6">
-                    <p className="text-muted-foreground">Nessuna segnalazione presente</p>
+                <div className="mx-auto max-w-[1400px] w-full">
+                  <h1 className="text-3xl font-bold mb-6">Storico Segnalazioni</h1>
+                  <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
+                    <div className="p-6">
+                      <p className="text-muted-foreground">Nessuna segnalazione presente</p>
+                    </div>
                   </div>
                 </div>
               </div>
