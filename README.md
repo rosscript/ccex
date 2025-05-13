@@ -2,7 +2,9 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Sviluppo Locale
+
+Per avviare il server di sviluppo:
 
 ```bash
 npm run dev
@@ -14,7 +16,26 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Apri [http://localhost:3300](http://localhost:3300) nel tuo browser per vedere il risultato.
+
+### Docker
+
+Per eseguire l'applicazione con Docker:
+
+1. Assicurati di avere Docker e Docker Compose installati sul tuo sistema
+2. Esegui il seguente comando nella directory principale del progetto:
+
+```bash
+docker-compose up --build
+```
+
+L'applicazione sarà disponibile su [http://localhost:3300](http://localhost:3300)
+
+Per fermare l'applicazione:
+
+```bash
+docker-compose down
+```
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
