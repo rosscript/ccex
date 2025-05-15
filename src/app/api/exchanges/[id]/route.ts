@@ -1,14 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 
 export async function PATCH(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
   try {
     const data = await request.json()
-    // Aspettiamo che params sia risolto
-    const { id } = await Promise.resolve(params)
+    const { id } = await params
     const exchange = db.updateExchange(id, data)
 
     if (!exchange) {
@@ -23,12 +22,11 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+): Promise<NextResponse> {
   try {
-    // Aspettiamo che params sia risolto
-    const { id } = await Promise.resolve(params)
+    const { id } = await params
     const success = db.deleteExchange(id)
 
     if (!success) {

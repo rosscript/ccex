@@ -22,6 +22,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Textarea } from "@/components/ui/textarea"
+import { DocumentData } from '@/lib/documentService';
+import { documentService } from '@/lib/documentService';
 
 
 export function NuovaSegnalazione() {
@@ -75,6 +77,9 @@ export function NuovaSegnalazione() {
     id: string;
     titolo: string;
     nome: string;
+    sign_title_first: string;
+    sign_title_second: string;
+    sign_name_surname: string;
   }
 
   const options = {
@@ -280,85 +285,79 @@ export function NuovaSegnalazione() {
 
   const handleGenerateDocument = async () => {
     try {
-      // Ottieni i dettagli per point of contact, natura attività e gruppo firma
-      const pocData = localStorage.getItem('pointsOfContact')
-      const activitiesData = localStorage.getItem('activities')
-      const groupsData = localStorage.getItem('signatureGroups')
+      const groupsData = localStorage.getItem('signatureGroups');
+      const pocData = localStorage.getItem('pointsOfContact');
       
-      let pocDetails = undefined;
-      let activityLabel = undefined;
-      let groupDetails = undefined;
-      
-      if (pocData) {
-        const parsedData = JSON.parse(pocData) as PointOfContact[];
-        const poc = parsedData.find(p => p.id === pointOfContact);
-        if (poc) {
-          pocDetails = poc;
-        }
+      if (!groupsData) {
+        throw new Error('Nessun gruppo firma configurato');
       }
-      
-      if (activitiesData) {
-        const parsedData = JSON.parse(activitiesData) as NaturaAttivita[];
-        const activity = parsedData.find(a => a.id === activityNature);
-        if (activity) {
-          activityLabel = activity.label;
-        }
+
+      if (!pocData) {
+        throw new Error('Nessun point of contact configurato');
       }
+
+      const groups = JSON.parse(groupsData) as GruppoFirma[];
+      const pocs = JSON.parse(pocData) as PointOfContact[];
       
-      if (groupsData) {
-        const parsedData = JSON.parse(groupsData) as GruppoFirma[];
-        const group = parsedData.find(g => g.id === signatureGroup);
-        if (group) {
-          groupDetails = group;
-        }
+      const selectedGroup = groups.find(g => g.id === signatureGroup);
+      const selectedPoc = pocs.find(p => p.id === pointOfContact);
+      
+      if (!selectedGroup) {
+        throw new Error('Nessun gruppo firma selezionato');
       }
-      
-      // Ottieni gli exchange selezionati
-      const selectedExchanges = exchanges.filter(e => e.selected);
-      
-      // Prepara i dati per il template
-      const templateData = {
+
+      if (!selectedPoc) {
+        throw new Error('Nessun point of contact selezionato');
+      }
+
+      // Raggruppa gli indirizzi per blockchain
+      const addressesByBlockchain = cryptoAddresses.reduce((acc, addr) => {
+        const blockchain = addr.blockchain.charAt(0).toUpperCase() + addr.blockchain.slice(1).toLowerCase();
+        if (!acc[blockchain]) {
+          acc[blockchain] = [];
+        }
+        acc[blockchain].push(addr.address);
+        return acc;
+      }, {} as Record<string, string[]>);
+
+      // Formatta gli indirizzi come elenco puntato
+      const formattedItems = Object.entries(addressesByBlockchain)
+        .map(([blockchain, addresses]) => {
+          const bulletPoints = addresses.map(addr => `• ${addr}`).join('\n');
+          return `${blockchain}:\n${bulletPoints}`;
+        })
+        .join('\n\n');
+
+      const data: DocumentData = {
         date: new Date().toLocaleDateString('it-IT'),
-        recipients: selectedExchanges.map(e => `${e.name} (${e.emails.join(', ')})`).join(', '),
-        subject: 'Segnalazione Indirizzi Crypto',
+        recipients: filteredExchanges.map(e => `${e.name} (${e.emails.join(', ')})`).join(', '),
         body: documentBody,
-        poc_name: pocDetails?.nominativo || pointOfContact,
-        poc_grade: pocDetails?.qualifica || '',
-        poc_phone: pocDetails?.telefono || '',
-        poc_email: pocDetails?.email || '',
-        poc_address: pocDetails?.indirizzo || '',
-        items: cryptoAddresses.map(addr => `${addr.address} (${addr.blockchain.toUpperCase()})`).join('\n'),
-        noa: activityLabel || activityNature,
-        signature_group_title: groupDetails?.titolo || '',
-        signature_group_name: groupDetails?.nome || ''
+        poc_name: selectedPoc.nominativo,
+        poc_grade: selectedPoc.qualifica,
+        poc_phone: selectedPoc.telefono,
+        poc_email: selectedPoc.email,
+        poc_address: selectedPoc.indirizzo,
+        items: formattedItems,
+        noa: activityOptions.find(a => a.value === activityNature)?.label || '',
+        sign_title_first: selectedGroup.sign_title_first,
+        sign_title_second: selectedGroup.sign_title_second,
+        sign_name_surname: selectedGroup.sign_name_surname
       };
 
-      // Chiama l'API per generare il documento Word
-      const response = await fetch('/api/generate-document', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          templateName: 'Awarness Letter.docx',
-          data: templateData
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error('Errore durante la generazione del documento');
-      }
+      const result = await documentService.generateDocument(data);
 
       // Scarica il documento
-      const blob = await response.blob();
+      const blob = await result.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'Awarness_Letter.docx';
+      a.download = 'Awarness Letter.docx';
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      console.error('Errore durante la generazione del documento:', error);
+      console.error('Errore nella generazione del documento:', error);
       alert('Si è verificato un errore durante la generazione del documento.');
     }
   }
@@ -638,7 +637,7 @@ export function NuovaSegnalazione() {
                         <SelectValue placeholder="Seleziona il gruppo firma" />
                       </SelectTrigger>
                       <SelectContent>
-                        {options.signatureGroup.map((option) => (
+                        {groupOptions.map((option) => (
                           <SelectItem key={option.value} value={option.value}>
                             {option.label}
                           </SelectItem>

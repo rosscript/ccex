@@ -1,10 +1,8 @@
-import PizZip from 'pizzip';
-import Docxtemplater from 'docxtemplater';
-import fs from 'fs';
-import path from 'path';
-
 export interface DocumentData {
-  [key: string]: string | number | boolean;
+  [key: string]: string | number | boolean | undefined;
+  sign_title_first: string;
+  sign_title_second: string;
+  sign_name_surname: string;
 }
 
 interface DocumentError extends Error {
@@ -13,55 +11,30 @@ interface DocumentError extends Error {
 }
 
 export class DocumentService {
-  private static readonly TEMPLATES_DIR = path.join(process.cwd(), 'public', 'templates');
-
-  static async generateDocument(templateName: string, data: DocumentData): Promise<Buffer> {
+  async generateDocument(data: DocumentData): Promise<Response> {
     try {
-      // Leggi il template
-      const templatePath = path.join(this.TEMPLATES_DIR, templateName);
-      
-      // Verifica che il file esista
-      if (!fs.existsSync(templatePath)) {
-        throw new Error(`Il file template ${templateName} non esiste in ${this.TEMPLATES_DIR}`);
+      const response = await fetch('/api/generate-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          templateName: 'Awarness Letter.docx',
+          data
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Errore durante la generazione del documento');
       }
 
-      const content = fs.readFileSync(templatePath);
-      
-      // Verifica che il contenuto non sia vuoto
-      if (!content || content.length === 0) {
-        throw new Error('Il file template è vuoto');
-      }
-
-      try {
-        // Crea un nuovo documento
-        const zip = new PizZip(content);
-        const doc = new Docxtemplater(zip, {
-          paragraphLoop: true,
-          linebreaks: true,
-        });
-
-        // Sostituisci i placeholder con i dati
-        doc.setData(data);
-
-        // Genera il documento
-        doc.render();
-
-        // Ottieni il documento generato
-        const output = doc.getZip().generate({
-          type: 'nodebuffer',
-          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        });
-
-        return output;
-      } catch (error) {
-        const docError = error as DocumentError;
-        console.error('Errore durante la manipolazione del documento:', docError);
-        throw new Error(`Errore durante la manipolazione del documento: ${docError.message}`);
-      }
+      return response;
     } catch (error) {
       const docError = error as DocumentError;
       console.error('Errore durante la generazione del documento:', docError);
       throw new Error(`Impossibile generare il documento: ${docError.message}`);
     }
   }
-} 
+}
+
+export const documentService = new DocumentService(); 

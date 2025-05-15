@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 
 export default function SeedPage() {
@@ -22,6 +22,7 @@ export default function SeedPage() {
         setMessage('')
       }
     } catch (err) {
+      console.error(err)
       setError('Errore durante la richiesta')
       setMessage('')
     }

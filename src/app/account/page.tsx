@@ -32,6 +32,9 @@ type GruppoFirma = {
   id: string;
   titolo: string;
   nome: string;
+  sign_title_first: string;
+  sign_title_second: string;
+  sign_name_surname: string;
 }
 
 export default function AccountPage() {
@@ -58,6 +61,9 @@ export default function AccountPage() {
   // Gruppo Firma inputs
   const [newTitolo, setNewTitolo] = useState("")
   const [newNome, setNewNome] = useState("")
+  const [newSignTitleFirst, setNewSignTitleFirst] = useState("")
+  const [newSignTitleSecond, setNewSignTitleSecond] = useState("")
+  const [newSignNameSurname, setNewSignNameSurname] = useState("")
 
   useEffect(() => {
     // Carica i dati salvati dal local storage
@@ -159,7 +165,10 @@ export default function AccountPage() {
       const newGroup: GruppoFirma = {
         id: generateId(),
         titolo: newTitolo.trim(),
-        nome: newNome.trim()
+        nome: newNome.trim(),
+        sign_title_first: newSignTitleFirst.trim(),
+        sign_title_second: newSignTitleSecond.trim(),
+        sign_name_surname: newSignNameSurname.trim()
       }
       
       const newData = [...signatureGroups, newGroup]
@@ -173,6 +182,9 @@ export default function AccountPage() {
       
       setNewTitolo("")
       setNewNome("")
+      setNewSignTitleFirst("")
+      setNewSignTitleSecond("")
+      setNewSignNameSurname("")
     }
   }
 
@@ -431,62 +443,96 @@ export default function AccountPage() {
                         <CardHeader>
                           <CardTitle>Gruppi Firma</CardTitle>
                           <CardDescription>
-                            Gestisci i gruppi firma disponibili nelle segnalazioni
+                            Gestisci i gruppi firma per i documenti
                           </CardDescription>
                         </CardHeader>
                         <CardContent>
-                          <div className="space-y-6">
-                            <div className="flex flex-col gap-4 sm:flex-row">
-                              <div className="flex-1">
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="newTitolo">Titolo</Label>
                                 <Input
-                                  placeholder="Titolo (es. Colonnello, Generale)"
+                                  id="newTitolo"
                                   value={newTitolo}
                                   onChange={(e) => setNewTitolo(e.target.value)}
+                                  placeholder="Inserisci il titolo"
                                 />
                               </div>
-                              <div className="flex-1">
+                              <div className="space-y-2">
+                                <Label htmlFor="newNome">Nome</Label>
                                 <Input
-                                  placeholder="Nome"
+                                  id="newNome"
                                   value={newNome}
                                   onChange={(e) => setNewNome(e.target.value)}
+                                  placeholder="Inserisci il nome"
                                 />
                               </div>
-                              <Button onClick={handleAddGroup} disabled={!newTitolo.trim() || !newNome.trim()}>
-                                <Plus className="h-4 w-4 mr-2" />
-                                Aggiungi
-                              </Button>
-                            </div>
-                            
-                            <div className="rounded-md border">
-                              <div className="grid grid-cols-[auto_1fr_1fr_auto] gap-4 p-4 font-medium border-b">
-                                <div>Gruppi firma</div>
+                              <div className="space-y-2">
+                                <Label htmlFor="newSignTitleFirst">Titolo Firma 1</Label>
+                                <Input
+                                  id="newSignTitleFirst"
+                                  value={newSignTitleFirst}
+                                  onChange={(e) => setNewSignTitleFirst(e.target.value)}
+                                  placeholder="Inserisci il primo titolo per la firma"
+                                />
                               </div>
-                              {signatureGroups.length === 0 ? (
-                                <div className="p-4 text-center text-muted-foreground">
-                                  Nessun gruppo firma configurato
-                                </div>
-                              ) : (
-                                <RadioGroup 
-                                  value={defaultGroup || ""} 
-                                  onValueChange={handleSetDefaultGroup}
-                                >
-                                  {signatureGroups.map((group) => (
-                                    <div key={group.id} className="grid grid-cols-[auto_1fr_1fr_auto] gap-4 p-4 items-center border-b last:border-b-0">
-                                      <RadioGroupItem value={group.id} id={`group-${group.id}`} />
-                                      <div>{group.titolo}</div>
-                                      <div>{group.nome}</div>
-                                      <Button 
-                                        variant="ghost" 
-                                        size="icon"
-                                        onClick={() => handleRemoveGroup(group.id)}
-                                      >
-                                        <Trash2 className="h-4 w-4" />
-                                      </Button>
-                                    </div>
-                                  ))}
-                                </RadioGroup>
-                              )}
+                              <div className="space-y-2">
+                                <Label htmlFor="newSignTitleSecond">Titolo Firma 2</Label>
+                                <Input
+                                  id="newSignTitleSecond"
+                                  value={newSignTitleSecond}
+                                  onChange={(e) => setNewSignTitleSecond(e.target.value)}
+                                  placeholder="Inserisci il secondo titolo per la firma"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="newSignNameSurname">Nome e Cognome</Label>
+                                <Input
+                                  id="newSignNameSurname"
+                                  value={newSignNameSurname}
+                                  onChange={(e) => setNewSignNameSurname(e.target.value)}
+                                  placeholder="Inserisci nome e cognome"
+                                />
+                              </div>
                             </div>
+                            <Button onClick={handleAddGroup} className="w-full">
+                              <Plus className="mr-2 h-4 w-4" />
+                              Aggiungi Gruppo Firma
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>Gruppi Firma Salvati</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-4">
+                            {signatureGroups.map((group) => (
+                              <div key={group.id} className="flex items-center justify-between p-4 border rounded-lg">
+                                <div className="flex items-center space-x-4">
+                                  <RadioGroup
+                                    value={defaultGroup || ""}
+                                    onValueChange={handleSetDefaultGroup}
+                                  >
+                                    <div className="flex items-center space-x-2">
+                                      <RadioGroupItem value={group.id} id={group.id} />
+                                      <Label htmlFor={group.id}>
+                                        {group.titolo} {group.nome}
+                                      </Label>
+                                    </div>
+                                  </RadioGroup>
+                                </div>
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleRemoveGroup(group.id)}
+                                >
+                                  <Trash2 className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            ))}
                           </div>
                         </CardContent>
                       </Card>
