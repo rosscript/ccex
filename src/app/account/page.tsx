@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Plus, Trash2, Save } from "lucide-react"
+import { Plus, Trash2, Save, Download } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
@@ -43,6 +43,7 @@ export default function AccountPage() {
   const [activities, setActivities] = useState<NaturaAttivita[]>([])
   const [signatureGroups, setSignatureGroups] = useState<GruppoFirma[]>([])
   const [defaultDocumentBody, setDefaultDocumentBody] = useState("")
+  const [currentTemplateName, setCurrentTemplateName] = useState<string | null>(null)
   
   const [defaultPoc, setDefaultPoc] = useState<string | null>(null)
   const [defaultActivity, setDefaultActivity] = useState<string | null>(null)
@@ -75,6 +76,12 @@ export default function AccountPage() {
       const defaultActivityData = localStorage.getItem('defaultActivity')
       const defaultGroupData = localStorage.getItem('defaultGroup')
       const documentBodyData = localStorage.getItem('defaultDocumentBody')
+      
+      // Se non esiste un template nel localStorage, imposta quello di default
+      if (!localStorage.getItem('currentTemplateName')) {
+        localStorage.setItem('currentTemplateName', 'Awarness Letter.docx')
+      }
+      const templateName = localStorage.getItem('currentTemplateName')
 
       if (pocData) setPointsOfContact(JSON.parse(pocData))
       if (activitiesData) setActivities(JSON.parse(activitiesData))
@@ -83,6 +90,7 @@ export default function AccountPage() {
       if (defaultActivityData) setDefaultActivity(defaultActivityData)
       if (defaultGroupData) setDefaultGroup(defaultGroupData)
       if (documentBodyData) setDefaultDocumentBody(documentBodyData)
+      if (templateName) setCurrentTemplateName(templateName)
     }
 
     loadSettings()
@@ -241,6 +249,57 @@ export default function AccountPage() {
     alert('Corpo del documento salvato con successo!')
   }
 
+  const handleTemplateUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file && file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+      // Crea un FormData per l'upload
+      const formData = new FormData()
+      formData.append('template', file)
+      
+      try {
+        const response = await fetch('/api/upload-template', {
+          method: 'POST',
+          body: formData
+        })
+        
+        if (!response.ok) {
+          throw new Error('Errore durante l\'upload del template')
+        }
+        
+        // Aggiorna il nome del template nel localStorage e nello state
+        localStorage.setItem('currentTemplateName', file.name)
+        setCurrentTemplateName(file.name)
+      } catch (error) {
+        console.error('Errore durante l\'upload del template:', error)
+        alert('Si è verificato un errore durante l\'upload del template')
+      }
+    } else {
+      alert('Per favore seleziona un file Word valido (.docx)')
+    }
+  }
+
+  const handleDownloadTemplate = async () => {
+    try {
+      const response = await fetch('/api/download-template')
+      if (!response.ok) {
+        throw new Error('Errore durante il download del template')
+      }
+      
+      const blob = await response.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = currentTemplateName || 'Awarness Letter.docx'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Errore durante il download del template:', error)
+      alert('Si è verificato un errore durante il download del template')
+    }
+  }
+
   return (
     <SidebarProvider
       style={
@@ -266,6 +325,7 @@ export default function AccountPage() {
                       <TabsTrigger value="activities">Natura delle Attività</TabsTrigger>
                       <TabsTrigger value="groups">Gruppi Firma</TabsTrigger>
                       <TabsTrigger value="document">Corpo del Documento</TabsTrigger>
+                      <TabsTrigger value="template">Template Word</TabsTrigger>
                     </TabsList>
                     
                     <TabsContent value="poc">
@@ -563,6 +623,60 @@ export default function AccountPage() {
                               <Button onClick={handleSaveDocumentBody}>
                                 <Save className="h-4 w-4 mr-2" />
                                 Salva
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </TabsContent>
+                    
+                    <TabsContent value="template">
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>Template Word</CardTitle>
+                          <CardDescription>
+                            Gestisci il template Word utilizzato per la generazione dei documenti
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-6">
+                            {currentTemplateName && (
+                              <div className="p-4 bg-muted rounded-lg">
+                                <p className="text-sm font-medium">Template attuale:</p>
+                                <p className="text-sm text-muted-foreground">{currentTemplateName}</p>
+                              </div>
+                            )}
+                            
+                            <div className="space-y-2">
+                              <Label htmlFor="template">Carica nuovo template</Label>
+                              <Input
+                                id="template"
+                                type="file"
+                                accept=".docx"
+                                onChange={handleTemplateUpload}
+                              />
+                              <p className="text-sm text-muted-foreground">
+                                Accetta solo file .docx
+                              </p>
+                            </div>
+
+                            {currentTemplateName && (
+                              <div className="space-y-2">
+                                <Label>Anteprima Template</Label>
+                                <div className="border rounded-lg overflow-hidden h-[600px]">
+                                  <iframe
+                                    src={`/api/preview-template?t=${Date.now()}`}
+                                    className="w-full h-full"
+                                    title="Anteprima Template"
+                                  />
+                                </div>
+                              </div>
+                            )}
+                            
+                            <div className="flex justify-end">
+                              <Button onClick={handleDownloadTemplate} disabled={!currentTemplateName}>
+                                <Download className="h-4 w-4 mr-2" />
+                                Scarica Template Attuale
                               </Button>
                             </div>
                           </div>
