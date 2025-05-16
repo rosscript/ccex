@@ -67,6 +67,82 @@ export default function AccountPage() {
   const [newSignNameSurname, setNewSignNameSurname] = useState("")
 
   useEffect(() => {
+    // Funzione per inizializzare i dati di default
+    const initializeDefaultData = () => {
+      const defaultPointsOfContact = [
+        {
+          id: "5bytfk0",
+          nominativo: "Major Simone Vecchiarello",
+          qualifica: "Commander of the Carabinieri's Cryptocurrencies Section",
+          telefono: "+39 064450391",
+          email: "ccafmsc@carabinieri.it",
+          indirizzo: "Via Varese nr. 9, 00185 Rome, Italy"
+        }
+      ]
+
+      const defaultActivities = [
+        {
+          id: "z2ckgdb",
+          label: "Physical theft of cryptocurrencies"
+        }
+      ]
+
+      const defaultSignatureGroups = [
+        {
+          id: "5xsehs8",
+          titolo: "THE CHIEF OF CRYPTOCURRENCIES SECTION",
+          nome: "Simone Vecchiarello",
+          sign_title_first: "THE CHIEF OF",
+          sign_title_second: "CRYPTOCURRENCIES SECTION",
+          sign_name_surname: "(Simone Vecchiarello)"
+        }
+      ]
+
+      const defaultDocumentBodyText = `Subject: Notification of Illicit Activity Involving Specific Address or Transaction
+
+We have recently identified a suspicious cryptocurrency address or transaction involving illegal activity of __________________.
+
+As part of our commitment to ensuring the integrity of the financial system and preventing any crime committed or attempted throughout the use of the Blockchain, we are issuing this notification to alert your platform and request immediate attention to this matter.
+
+We're not asking you to take any action, nor are we asking you to pass this information on to the potential customer, we're simply giving you this relevant information so that you can decide whether you want to tackle a potential threat and money laundering activity.
+
+Furthermore, if you identify any transactions associated to the communicated address, we'd like to ask you to provide us immediately any relevant information about the ownership of the wallets, in particular if the wallet mentioned above does interact with your platform.
+
+The details are specified in the tab below:`
+
+      // Inizializza i dati solo se non esistono già nel localStorage
+      if (!localStorage.getItem('pointsOfContact')) {
+        saveToLocalStorage('pointsOfContact', defaultPointsOfContact)
+        setPointsOfContact(defaultPointsOfContact)
+        localStorage.setItem('defaultPoc', defaultPointsOfContact[0].id)
+        setDefaultPoc(defaultPointsOfContact[0].id)
+      }
+
+      if (!localStorage.getItem('activities')) {
+        saveToLocalStorage('activities', defaultActivities)
+        setActivities(defaultActivities)
+        localStorage.setItem('defaultActivity', defaultActivities[0].id)
+        setDefaultActivity(defaultActivities[0].id)
+      }
+
+      if (!localStorage.getItem('signatureGroups')) {
+        saveToLocalStorage('signatureGroups', defaultSignatureGroups)
+        setSignatureGroups(defaultSignatureGroups)
+        localStorage.setItem('defaultGroup', defaultSignatureGroups[0].id)
+        setDefaultGroup(defaultSignatureGroups[0].id)
+      }
+
+      if (!localStorage.getItem('defaultDocumentBody')) {
+        localStorage.setItem('defaultDocumentBody', defaultDocumentBodyText)
+        setDefaultDocumentBody(defaultDocumentBodyText)
+      }
+
+      if (!localStorage.getItem('currentTemplateName')) {
+        localStorage.setItem('currentTemplateName', 'Awarness Letter.docx')
+        setCurrentTemplateName('Awarness Letter.docx')
+      }
+    }
+
     // Carica i dati salvati dal local storage
     const loadSettings = () => {
       const pocData = localStorage.getItem('pointsOfContact')
@@ -76,11 +152,6 @@ export default function AccountPage() {
       const defaultActivityData = localStorage.getItem('defaultActivity')
       const defaultGroupData = localStorage.getItem('defaultGroup')
       const documentBodyData = localStorage.getItem('defaultDocumentBody')
-      
-      // Se non esiste un template nel localStorage, imposta quello di default
-      if (!localStorage.getItem('currentTemplateName')) {
-        localStorage.setItem('currentTemplateName', 'Awarness Letter.docx')
-      }
       const templateName = localStorage.getItem('currentTemplateName')
 
       if (pocData) setPointsOfContact(JSON.parse(pocData))
@@ -93,6 +164,8 @@ export default function AccountPage() {
       if (templateName) setCurrentTemplateName(templateName)
     }
 
+    // Inizializza i dati di default e poi carica le impostazioni
+    initializeDefaultData()
     loadSettings()
   }, [])
 

@@ -41,23 +41,9 @@ export function NuovaSegnalazione() {
   const [activityNature, setActivityNature] = useState("")
   const [signatureGroup, setSignatureGroup] = useState("")
   
-  const [pocOptions, setPocOptions] = useState<Array<{ value: string; label: string }>>([
-    { value: "ccafmsc", label: "CCAFMSC" },
-    { value: "ccaf", label: "CCAF" },
-    { value: "ccafmsc_ccaf", label: "CCAFMSC + CCAF" }
-  ])
-  
-  const [activityOptions, setActivityOptions] = useState<Array<{ value: string; label: string }>>([
-    { value: "investigativa", label: "Attività Investigativa" },
-    { value: "preventiva", label: "Attività Preventiva" },
-    { value: "repressiva", label: "Attività Repressiva" }
-  ])
-  
-  const [groupOptions, setGroupOptions] = useState<Array<{ value: string; label: string }>>([
-    { value: "gruppo_a", label: "Gruppo A" },
-    { value: "gruppo_b", label: "Gruppo B" },
-    { value: "gruppo_c", label: "Gruppo C" }
-  ])
+  const [pocOptions, setPocOptions] = useState<Array<{ value: string; label: string }>>([])
+  const [activityOptions, setActivityOptions] = useState<Array<{ value: string; label: string }>>([])
+  const [groupOptions, setGroupOptions] = useState<Array<{ value: string; label: string }>>([])
 
   type PointOfContact = {
     id: string;
